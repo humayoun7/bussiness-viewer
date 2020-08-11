@@ -56,6 +56,11 @@ class MainFragment : Fragment() {
                 adapter?.addItems(it.businesses)
             }
             viewModel.PAGE_OFFSET += it.businesses.size
+            viewModel.fetchingBusinessData.value = false
+        })
+
+        viewModel.fetchingBusinessData.observe(requireActivity(), Observer {
+            progressBar.visibility = if(it) View.VISIBLE else View.GONE
         })
 
         btnBack.setOnClickListener{

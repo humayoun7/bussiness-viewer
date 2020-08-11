@@ -13,6 +13,16 @@
         android:layout_height="match_parent"
         android:padding="@dimen/standard_padding">
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/stackView"
+            app:layout_constraintEnd_toEndOf="@+id/stackView"
+            app:layout_constraintStart_toStartOf="@+id/stackView"
+            app:layout_constraintTop_toTopOf="@+id/stackView" />
+
         <com.yuyakaido.android.cardstackview.CardStackView
             android:id="@+id/stackView"
             android:layout_width="match_parent"
@@ -21,6 +31,8 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
+            style="@style/action_button"
+            android:background="@drawable/action_button_background"
             android:id="@+id/btnBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,6 +41,8 @@
             app:layout_constraintTop_toBottomOf="@+id/stackView" />
 
         <Button
+            style="@style/action_button"
+            android:background="@drawable/action_button_background"
             android:id="@+id/btnNext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

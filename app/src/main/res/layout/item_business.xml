@@ -17,28 +17,23 @@
         tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
     <TextView
+        style="@style/business_name"
         android:id="@+id/txtName"
         android:background="@color/blackTransparent"
-        android:textColor="@color/white"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="Cheese cake Factory"
-        android:padding="@dimen/text_padding"
-        android:layout_marginBottom="@dimen/standard_margin"
         app:layout_constraintBottom_toBottomOf="@+id/ivDisplay"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
+        style="@style/rating"
         android:background="@color/blackTransparent"
-        android:textColor="@color/white"
-        android:padding="@dimen/text_padding"
         android:id="@+id/txtRating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="4.0"
-        android:layout_marginTop="@dimen/standard_margin"
-        android:layout_marginRight="@dimen/standard_margin"
         app:layout_constraintEnd_toEndOf="@id/ivDisplay"
         app:layout_constraintTop_toTopOf="@id/ivDisplay" />
 </androidx.constraintlayout.widget.ConstraintLayout>
