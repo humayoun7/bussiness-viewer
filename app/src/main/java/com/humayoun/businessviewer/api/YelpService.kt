@@ -12,7 +12,9 @@ import retrofit2.http.Query
 interface YelpService {
     @GET("v3/businesses/search")
     suspend fun getBusinessSearchResult(
-        @Query("location") location: String,
+        @Query("latitude") latitude: Double,
+        @Query("longitude") longitude: Double,
+        @Query("term") searchTerm: String,
         @Query("offset") offset: Int,
         @Query("limit") limit: Int
     ): BusinessSearchResult

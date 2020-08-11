@@ -1,5 +1,7 @@
 package com.humayoun.businessviewer.ui.main
 
+import android.content.Context
+import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -45,9 +47,8 @@ class MainFragment : Fragment() {
     private fun init() {
         viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
 
-        viewModel.searchForBusinesses()
         viewModel.businessSearchResult.observe(requireActivity(), Observer {
-            Log.i("MainFragment", it.toString())
+
             if(adapter == null) {
                 adapter = BusinessAdapter(requireActivity(), ArrayList<Business>(it.businesses))
                 initStackView()
@@ -93,10 +94,7 @@ class MainFragment : Fragment() {
                 }
             }
         }
-
+        
         stackView.addOnScrollListener(scroll)
     }
-
-
-
 }

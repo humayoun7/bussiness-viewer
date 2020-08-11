@@ -12,9 +12,9 @@ class BusinessRepository(private val yelpService: YelpService) {
 
     val businessesSearchResult = MutableLiveData<BusinessSearchResult>()
 
-    fun getBusinesses(offset: Int) {
+    fun getBusinesses(latitude: Double, longitue: Double, searchTerm: String, offset: Int) {
         CoroutineScope(Dispatchers.IO).launch {
-            val searchResults = yelpService.getBusinessSearchResult("Los Angeles", offset, Constants.YelpSerivce.PAGE_LIMIT)
+            val searchResults = yelpService.getBusinessSearchResult(latitude, longitue, searchTerm, offset, Constants.YelpSerivce.PAGE_LIMIT)
             businessesSearchResult.postValue(searchResults)
         }
     }
