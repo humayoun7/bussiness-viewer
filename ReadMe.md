@@ -12,7 +12,7 @@ Libraries used:
 
 
 
-(demo/demo.gif)
+![Business Search Demo](demo/demo.gif)
 
 
 
