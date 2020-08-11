@@ -13,6 +13,41 @@
         android:layout_height="match_parent"
         android:padding="@dimen/standard_padding">
 
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/input_box"
+            android:layout_marginTop="@dimen/standard_margin"
+            app:layout_constraintEnd_toStartOf="@+id/btnSearch"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/etSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/search_for_businesses"
+                android:imeOptions="actionSearch"
+                android:inputType="textNoSuggestions"
+                android:selectAllOnFocus="true"
+                tools:text="Restaurants" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnSearch"
+            style="@style/action_button"
+            android:background="@drawable/action_button_background"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/search_button_margin"
+            android:layout_marginBottom="@dimen/search_button_margin"
+            android:text="@string/search"
+            app:layout_constraintBottom_toBottomOf="@+id/inputLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/inputLayout" />
+
         <ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyle"
@@ -29,8 +64,9 @@
             android:id="@+id/stackView"
             android:layout_width="match_parent"
             android:layout_height="350dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginTop="@dimen/standard_margin"
+            app:layout_constraintStart_toStartOf="@id/inputLayout"
+            app:layout_constraintTop_toBottomOf="@id/inputLayout" />
 
         <Button
             style="@style/action_button"

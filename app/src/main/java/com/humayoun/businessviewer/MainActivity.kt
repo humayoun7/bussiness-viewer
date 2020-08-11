@@ -5,11 +5,12 @@ import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.*
 import com.humayoun.businessviewer.constant.Constants
 import com.humayoun.businessviewer.ui.main.MainFragment
 import com.humayoun.businessviewer.ui.main.MainViewModel
@@ -22,14 +23,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, MainFragment.newInstance())
-                    .commitNow()
-        }
 
+        addMainFragment(savedInstanceState)
         init()
         checkPermissionAndGetLocation()
+        addObservers()
     }
 
     private fun init() {
@@ -37,6 +35,15 @@ class MainActivity : AppCompatActivity() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
     }
 
+    private fun addMainFragment(savedInstanceState: Bundle?) {
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.container, MainFragment.newInstance())
+                .commitNow()
+        }
+    }
+
+    ///region Location
     private fun checkPermissionAndGetLocation() {
         if(checkPermissions()) {
             getLastLocation()
@@ -73,7 +80,44 @@ class MainActivity : AppCompatActivity() {
     private fun getLastLocation() {
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location : Location? ->
-                viewModel.location.value = location
+                if (location != null) {
+                    viewModel.location.value = location
+                } else {
+                    requestNewLocationData()
+                }
             }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun requestNewLocationData() {
+        var mLocationRequest = LocationRequest()
+        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        mLocationRequest.interval = 0
+        mLocationRequest.fastestInterval = 0
+        mLocationRequest.numUpdates = 1
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        fusedLocationClient!!.requestLocationUpdates(
+            mLocationRequest, object: LocationCallback() {
+                override fun onLocationResult(locationResult: LocationResult?) {
+                    super.onLocationResult(locationResult)
+                    viewModel.location.value = locationResult?.lastLocation
+
+                }
+            },
+            Looper.myLooper()
+        )
+    }
+    ///endregion
+
+    fun addObservers() {
+        // observe and update the current title
+        viewModel.currentlySearching.observe(this, Observer {
+            updateTitle(it)
+        })
+    }
+
+    fun updateTitle(searchTerm: String) {
+        supportActionBar?.title = getString(R.string.showing_nearby) + searchTerm
     }
 }

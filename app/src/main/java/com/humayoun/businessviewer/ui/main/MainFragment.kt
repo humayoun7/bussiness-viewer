@@ -14,8 +14,15 @@ import com.humayoun.businessviewer.Injection
 import com.humayoun.businessviewer.R
 import com.humayoun.businessviewer.constant.Constants
 import com.humayoun.businessviewer.model.Business
+import com.humayoun.businessviewer.utils.hideKeyboard
+import com.humayoun.businessviewer.utils.onSearch
 import com.yuyakaido.android.cardstackview.*
 import kotlinx.android.synthetic.main.main_fragment.*
+
+
+/**
+ * Handling the main view of the app, this can be renamed later if more fragments are used
+ * */
 
 class MainFragment : Fragment() {
 
@@ -48,6 +55,41 @@ class MainFragment : Fragment() {
         btnNext.setOnClickListener{
             stackView.swipe()
         }
+
+        btnSearch.setOnClickListener {
+            search(false)
+            requireActivity().hideKeyboard()
+        }
+
+        etSearch.onSearch {
+            search(false)
+            requireActivity().hideKeyboard()
+        }
+    }
+
+    private fun search(useCurrentSearchTerm: Boolean) {
+        // make sure we have location
+        if(viewModel.location.value == null) {
+            Toast.makeText(requireContext(), getString(R.string.location_error), Toast.LENGTH_LONG).show()
+            return
+        }
+
+        // make sure we hae search term
+        var searchFor = etSearch.text.toString()
+        if(!useCurrentSearchTerm && searchFor.isEmpty()) {
+            Toast.makeText(requireContext(), "Please enter a search Term", Toast.LENGTH_LONG).show()
+            return
+        } else if (useCurrentSearchTerm) {
+            searchFor = viewModel.currentlySearching?.value ?: Constants.YelpService.DEFAULT_SEARCH_TERM
+        }
+
+        // if new search term reset the adapter and pageoffset
+        if(viewModel.currentlySearching?.value != searchFor) {
+            adapter = null
+            viewModel.pageOffset = 0
+        }
+
+        viewModel.searchForBusinesses(viewModel.location?.value, searchFor)
     }
 
     private fun addObservers() {
@@ -70,13 +112,10 @@ class MainFragment : Fragment() {
 
         // observing for location
         viewModel.location.observe(requireActivity(), Observer {
-            if(it != null) {
-                viewModel.searchForBusinesses(it)
-            } else {
-                Toast.makeText(requireContext(), getString(R.string.location_error), Toast.LENGTH_LONG).show()
-            }
+            search(true)
         })
     }
+
 
     private fun initStackView() {
         val setting = RewindAnimationSetting.Builder()
@@ -101,8 +140,8 @@ class MainFragment : Fragment() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 val itemRemaining = cardStackLayoutManager.itemCount - cardStackLayoutManager.topPosition
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && itemRemaining == Constants.YelpSerivce.RELOAD_WHEN_REMAINING_COUNT) {
-                    viewModel.searchForBusinesses(viewModel.location?.value)
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && itemRemaining == Constants.YelpService.RELOAD_WHEN_REMAINING_COUNT) {
+                    search(true)
                 }
             }
         }

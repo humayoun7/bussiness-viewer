@@ -11,6 +11,9 @@ import com.bumptech.glide.Glide
 import com.humayoun.businessviewer.R
 import com.humayoun.businessviewer.model.Business
 
+/**
+ * Adpater to render stackview since stackview is extension of recycler view
+ * */
 
 class BusinessAdapter(
     private val context: Context,

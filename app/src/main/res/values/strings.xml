@@ -3,4 +3,7 @@
     <string name="next">Next</string>
     <string name="back">Back</string>
     <string name="location_error">Please make sure your location is turned on and you have allowed this app to use your location</string>
+    <string name="search">Search</string>
+    <string name="search_for_businesses">Search for Businesses</string>
+    <string name="showing_nearby">Showing nearby&#160;</string>
 </resources>

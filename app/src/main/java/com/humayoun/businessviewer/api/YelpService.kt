@@ -9,6 +9,10 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
+/**
+ * Using retrofit for exposing yelp service to make api call
+ * */
+
 interface YelpService {
     @GET("v3/businesses/search")
     suspend fun getBusinessSearchResult(
@@ -25,7 +29,7 @@ interface YelpService {
             val httpClient = OkHttpClient.Builder()
                 .addInterceptor(Interceptor {
                     val request = it.request().newBuilder()
-                        .addHeader(Constants.YelpSerivce.AUTHORIZATION_HEADER, Constants.YelpSerivce.AUTHORIZATION_HEADER_VALUE)
+                        .addHeader(Constants.YelpService.AUTHORIZATION_HEADER, Constants.YelpService.AUTHORIZATION_HEADER_VALUE)
                         .build()
 
                     it.proceed(request)
@@ -33,7 +37,7 @@ interface YelpService {
                 .build()
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(Constants.YelpSerivce.BASE_URL)
+                .baseUrl(Constants.YelpService.BASE_URL)
                 .addConverterFactory(MoshiConverterFactory.create())
                 .client(httpClient)
                 .build()

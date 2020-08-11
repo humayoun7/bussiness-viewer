@@ -3,4 +3,5 @@
     <dimen name="standard_margin">16dp</dimen>
     <dimen name="text_padding">6dp</dimen>
     <dimen name="standard_padding">16dp</dimen>
+    <dimen name="search_button_margin">4dp</dimen>
 </resources>
