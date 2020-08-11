@@ -94,7 +94,7 @@ class MainFragment : Fragment() {
                 }
             }
         }
-        
+
         stackView.addOnScrollListener(scroll)
     }
 }
