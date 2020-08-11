@@ -77,7 +77,7 @@ class MainFragment : Fragment() {
         // make sure we hae search term
         var searchFor = etSearch.text.toString()
         if(!useCurrentSearchTerm && searchFor.isEmpty()) {
-            Toast.makeText(requireContext(), "Please enter a search Term", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), getString(R.string.error_search_term), Toast.LENGTH_LONG).show()
             return
         } else if (useCurrentSearchTerm) {
             searchFor = viewModel.currentlySearching?.value ?: Constants.YelpService.DEFAULT_SEARCH_TERM
