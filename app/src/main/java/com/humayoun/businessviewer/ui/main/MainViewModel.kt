@@ -8,8 +8,11 @@ class MainViewModel () : ViewModel() {
 
     val businessRepository = BusinessRepository(YelpService.create())
     val businessSearchResult = businessRepository.businessesSearchResult
+    // to keep track of page offset
+    var PAGE_OFFSET = 0
 
-    init {
-        businessRepository.getBusinesses()
+
+    fun searchForBusinesses() {
+        businessRepository.getBusinesses(PAGE_OFFSET)
     }
 }

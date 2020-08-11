@@ -50,4 +50,10 @@ class BusinessAdapter(
         return businesses.size
     }
 
+    fun addItems(newItems: List<Business>) {
+        val start = businesses.size
+        businesses.addAll(newItems)
+        notifyItemRangeChanged(start, newItems.size)
+    }
+
 }
