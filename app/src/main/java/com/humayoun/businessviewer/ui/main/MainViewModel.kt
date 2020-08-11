@@ -7,20 +7,23 @@ import com.humayoun.businessviewer.api.YelpService
 import com.humayoun.businessviewer.constant.Constants
 import com.humayoun.businessviewer.repository.BusinessRepository
 
-class MainViewModel () : ViewModel() {
+class MainViewModel (private val businessRepository: BusinessRepository) : ViewModel() {
 
-    val businessRepository = BusinessRepository(YelpService.create())
     val businessSearchResult = businessRepository.businessesSearchResult
-    var location: Location? = null
+    var location = MutableLiveData<Location>()
     var fetchingBusinessData = MutableLiveData<Boolean>()
-    // to keep track of page offset
-    var PAGE_OFFSET = 0
+    var pageOffset = 0
 
 
-    fun searchForBusinesses() {
-        location?.let {
+    fun searchForBusinesses(newLocation: Location?) {
+        // reset the pageOffset if it's a new location
+        if(location != newLocation) {
+            pageOffset = 0
+        }
+
+        location.value?.let {
             fetchingBusinessData.value = true
-            businessRepository.getBusinesses(it.latitude, it.longitude, Constants.YelpSerivce.DEFAULT_SEARCH_TERM, PAGE_OFFSET)
+            businessRepository.getBusinesses(it.latitude, it.longitude, Constants.YelpSerivce.DEFAULT_SEARCH_TERM, pageOffset)
         }
     }
 }

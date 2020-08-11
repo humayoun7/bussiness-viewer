@@ -2,4 +2,5 @@
     <string name="app_name">BusinessViewer</string>
     <string name="next">Next</string>
     <string name="back">Back</string>
+    <string name="location_error">Please make sure your location is turned on and you have allowed this app to use your location</string>
 </resources>

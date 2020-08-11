@@ -10,5 +10,5 @@ object Constants {
         const val DEFAULT_SEARCH_TERM = "restaurants"
     }
 
-    val LOCATION_PERMISSION_ID = 0
+    const val LOCATION_PERMISSION_ID = 0
 }

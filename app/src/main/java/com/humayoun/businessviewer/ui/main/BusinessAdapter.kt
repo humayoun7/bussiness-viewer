@@ -23,14 +23,12 @@ class BusinessAdapter(
         val ivDisplay: ImageView = itemView.findViewById(R.id.ivDisplay)
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_business, parent, false)
 
         return ViewHolder(view)
     }
-
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val business = businesses[position]
@@ -43,7 +41,6 @@ class BusinessAdapter(
                 .load(business.imageUrl)
                 .into(ivDisplay)
         }
-
     }
 
     override fun getItemCount(): Int {

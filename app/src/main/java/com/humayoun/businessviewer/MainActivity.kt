@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun init() {
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this, Injection.provideViewModelFactory()).get(MainViewModel::class.java)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
     }
 
@@ -73,8 +73,7 @@ class MainActivity : AppCompatActivity() {
     private fun getLastLocation() {
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location : Location? ->
-                viewModel.location = location
-                viewModel.searchForBusinesses()
+                viewModel.location.value = location
             }
     }
 }
