@@ -1,21 +1,18 @@
 package com.humayoun.businessviewer.ui.main
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.humayoun.businessviewer.R
-import com.humayoun.businessviewer.api.YelpService
-import com.humayoun.businessviewer.constant.Constants
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
+import com.humayoun.businessviewer.model.Business
+import com.yuyakaido.android.cardstackview.*
+import kotlinx.android.synthetic.main.main_fragment.*
 
 class MainFragment : Fragment() {
 
@@ -24,6 +21,7 @@ class MainFragment : Fragment() {
     }
 
     private lateinit var viewModel: MainViewModel
+    private var adapter: BusinessAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -41,11 +39,40 @@ class MainFragment : Fragment() {
         init()
     }
 
-    fun init() {
+    private fun init() {
         viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         viewModel.businessSearchResult.observe(requireActivity(), Observer {
             Log.i("MainFragment", it.toString())
+            if(adapter == null) {
+                adapter = BusinessAdapter(requireActivity(), ArrayList<Business>(it.businesses))
+                initStackView()
+            }
         })
+
+        btnBack.setOnClickListener{
+            stackView.rewind()
+        }
+
+        btnNext.setOnClickListener{
+            stackView.swipe()
+        }
     }
+
+    private fun initStackView() {
+        val setting = RewindAnimationSetting.Builder()
+            .setDirection(Direction.Right)
+            .setDuration(Duration.Normal.duration)
+            .setInterpolator(DecelerateInterpolator())
+            .build()
+
+        val cardStackLayoutManager = CardStackLayoutManager(requireContext())
+        cardStackLayoutManager.setRewindAnimationSetting(setting)
+        cardStackLayoutManager.setStackFrom(StackFrom.Top)
+        cardStackLayoutManager.setSwipeableMethod(SwipeableMethod.Automatic)
+        stackView.layoutManager = cardStackLayoutManager
+        stackView.adapter = adapter
+    }
+
+
 
 }

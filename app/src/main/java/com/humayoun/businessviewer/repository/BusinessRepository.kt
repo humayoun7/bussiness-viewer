@@ -1,9 +1,7 @@
 package com.humayoun.businessviewer.repository
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.humayoun.businessviewer.api.YelpService
-import com.humayoun.businessviewer.model.Business
 import com.humayoun.businessviewer.model.BusinessSearchResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BusinessViewer</string>
+    <string name="next">Next</string>
+    <string name="back">Back</string>
 </resources>
